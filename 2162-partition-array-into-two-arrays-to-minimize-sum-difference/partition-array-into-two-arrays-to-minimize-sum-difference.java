@@ -5,8 +5,6 @@ class Solution {
             sum += num;
         }
 
-      //  System.out.println("sum = " + sum);
-
         Map<Integer, List<Integer>> leftMap = new HashMap<>();
         Map<Integer, List<Integer>> rightMap = new HashMap<>();
 
@@ -16,11 +14,6 @@ class Solution {
         generateSubsetSum(nums, 0, n/2-1, leftMap);
         generateSubsetSum(nums, n/2, n-1, rightMap);
 
-        // System.out.println("rightMap = " + rightMap);
-        // System.out.println("leftMap = " + leftMap);
-
-
-
         int k = sum/2;
         int res = Integer.MAX_VALUE;
 
@@ -29,16 +22,10 @@ class Solution {
             List<Integer> right = rightMap.get(nums.length/2 - len);
            
             if(right != null) {
-            // System.out.println("right = " + right);
-            // System.out.println("left = " + left);
                 Collections.sort(right);
                 for(int num : left) {
-                 //   System.out.println("num = " + num);
                     int target = (sum/2) - num;
-                //  System.out.println("Target = " + (k - num));
                     int lb = findLowerBoundNumber(right, target);
-                //   System.out.println("nearest possible number = " + lb);
-                //  if((num + nearestPossibleNumber) <= sum/2) {
                     res = Math.min(res, Math.abs(sum - 2*(num + lb)));
                 }
             }
@@ -58,11 +45,8 @@ class Solution {
                     len++;
                 }
             }
-            // System.out.println("sum = " + sum);
-            // System.out.println("len = " + len);
             subsetSumMap.computeIfAbsent(len, k -> new ArrayList<>()).add(sum);
         }
-        //System.out.println("subsetSumMap = " + subsetSumMap);
     }
 
     private int findLowerBoundNumber(List<Integer> subsetSums, int target) {
