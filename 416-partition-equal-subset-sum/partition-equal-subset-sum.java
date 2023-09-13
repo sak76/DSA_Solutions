@@ -9,34 +9,35 @@ class Solution {
             return false;
         }
 
-        boolean[][] dp = new boolean[nums.length][sum/2 + 1];
         int n = nums.length;
         int k = sum/2;
-
-        for(int i = 0; i < n; i++) {
-            dp[i][0] = true;
+        
+        boolean[] prev = new boolean[k+1];
+        boolean[] curr = new boolean[k+1];
+        prev[0] = true;
+        curr[0] = true;
+        if(nums[0] <= k) {
+            prev[nums[0]] = true;
         }
-
-        for(int j = 0; j <= k; j++) {
-            if(nums[0] == j) {
-                dp[0][j] = true;
-            } 
-        }
+        boolean[] temp;
 
         for(int i = 1; i < n; i++) {
             for(int j = 1; j <= k; j++) {
                 boolean take = false;
+               
                 if(nums[i] <= j) {
-                    take =  dp[i - 1][j - nums[i]];
+                    take =  prev[j - nums[i]];
                 }
 
-                boolean notTake = dp[i - 1][j];
-
-                dp[i][j] = (take | notTake);
+                boolean notTake = prev[j];
+                curr[j] = (take | notTake);
             }
+            temp = prev;
+            prev = curr;
+            curr = temp;
         }
-
-        return dp[n-1][k]; 
+       // System.out.println("curr = " + Arrays.toString(curr));
+        return curr[k]; 
     }
 
     private boolean isSubsetSumEqualToTarget(int[] nums, int index, int k, Boolean[][] memo) {
